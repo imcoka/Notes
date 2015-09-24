@@ -1,0 +1,24 @@
+placeholder 属性
+placeholder（占位符）在实际的应用中非常常见，主要用作提示输入内容，现代浏览器都支持：
+
+<input placeholder="搜索" type="text">
+placeholder 样式
+
+这里网上搜索了一下 placeholder 样式相关知识，分享一下：
+
+/* all */
+::-webkit-input-placeholder { color:#f00; }
+::-moz-placeholder { color:#f00; } /* firefox 19+ */
+:-ms-input-placeholder { color:#f00; } /* Internet Explorer 10+ */
+:-moz-placeholder { color:#f00; } /* firefox 14-18 */
+ 
+/*  webkit 私有 */
+#field2::-webkit-input-placeholder { color:#00f; }
+#field3::-webkit-input-placeholder { color:#090; background:lightgreen; text-transform:uppercase; }
+#field4::-webkit-input-placeholder { font-style:italic; text-decoration:overline; letter-spacing:3px; color:#999; }
+ 
+/* mozilla 私有 */
+#field2::-moz-placeholder { color:#00f; }
+#field3::-moz-placeholder { color:#090; background:lightgreen; text-transform:uppercase; }
+#field4::-moz-placeholder { font-style:italic; text-decoration:overline; letter-spacing:3px; color:#999; }
+可以看出placeholder 伪类样式还是相对丰富的。
