@@ -1,0 +1,87 @@
+用JavaScript在客户端检测浏览器是否支持某项功能特征，目前虽然这是最可行的方法，但不好的是，对于同一个特征的检测，我们需要反复多次用相同的函数附带各种浏览器前缀。而且因为CSS没有相应的功能，使用JavaScript会导致页面闪现，多余辅助代码等问题。火狐浏览器，谷歌浏览器和Opera浏览器最近刚刚添加了一项新的功能——在CSS里支持@supports标记、在JavaScript里支持CSS.supports函数，用来检测浏览器是否支持某个期望的样式功能。下面让我们来看看是如何使用的！
+
+CSS @supports
+CSS @supports标记在CSS代码里跟@media查询语句的语法相似：
+
+@supports(prop:value) {
+	/* 各种样式 */
+}
+CSS @supports允许程序员用多种不同的方法来探测当前浏览器是否支持某项CSS样式特征。
+
+基本属性检测
+你可以执行对基本属性和属性值的检测：
+
+@supports (display: flex) {
+	div { display: flex; }
+}
+这是@supports标记最基本的用法。
+
+not关键字
+@supports标记可以和‘not’关键字组合，用来应对不支持的情况：
+
+@supports not (display: flex) {
+	div { float: left; } /* 替换样式 */
+}
+组合条件检测
+对多个CSS属性的检查可以通过‘or’和‘and’串联起来：
+
+/* or */
+@supports (display: -webkit-flex) or
+          (display: -moz-flex) or
+          (display: flex) {
+ 
+    /* use styles here */
+}
+ 
+/* and */
+@supports (display: flex) and (-webkit-appearance: caret) {
+ 
+	/* something crazy here */
+}
+你可以用括号将多个条件进行嵌套关联，这跟大多数编程语言的写法一样：
+
+/* and and or */
+@supports ((display: -webkit-flex) or
+          (display: -moz-flex) or
+          (display: flex)) and (-webkit-appearance: caret) {
+ 
+    /* use styles here */
+}
+@supports标记使用的逻辑判断结构跟@media是一样的。
+
+JavaScript CSS.supports
+跟CSS的@supports标记相对应的，JavaScript里提供了window.CSS.supports方法。CSS.supports的接口规范提供两种调用方法。第一种方法是使用两个参数：一个是属性名，另一个是属性值：
+
+var supportsFlex = CSS.supports("display", "flex");
+第二种用法是简单的提供整个需要分析的样式字串：
+
+var supportsFlexAndAppearance = CSS.supports("(display: flex) and (-webkit-appearance: caret)");
+这两个方法给我们提供了极大的方法，避免了我们拼凑代码或设临时变量来检查浏览器的支持。
+
+在JavaScript里使用supports方法前，你一定要先检查浏览器是否支持这种功能。Opera浏览器使用了一种完全不同的名称，这导致我们的代码有点拖拉：
+
+var supportsCSS = !!((window.CSS && window.CSS.supports) || window.supportsCSS || false);
+@supports的使用场景
+大多数情况，@supports是用来支持老式浏览器，并在有可能的情况下，利用现代浏览器的新特征来提高用户体验。@supports的一个最重要的使用场景是页面布局。很多现代浏览器都提供了对flexbox网页布局的支持，在这种还有很多浏览器不支持的情况下，你的代码可以写成这样：
+
+section {
+	float: left;
+}
+ 
+@supports (display: -webkit-flex) or
+          (display: -moz-flex) or
+          (display: flex) {
+ 
+    section {
+      display: -webkit-flex;
+      display: -moz-flex;
+    	display: flex;
+    	float: none;
+    }
+}
+相信随着程序员对这种新的@supports功能的使用和体验，更多的更好的使用场景会不断的出现。
+
+使用@supports
+如果你对像@support这样的新功能感兴趣，想试验一下，你需要安装最新版的现代浏览器，比如 Canary, Firefox Nightly或 Opera Next。Opera 12.1, WebKit Nightly,和 Firefox Nightly都支持@supports。对于之前的火狐浏览器，你需要开启[layout.CSS.supports-rule.enabled]设置，这样这些新特征才会生效。
+
+@supports是CSS和JavaScript规范中非常有用的补充。对浏览器新功能的检查已经是我们编程中非常常见的必要工作。@supports给我们提供了更底层的支持，而之前多少年我们都是用自定义方法实现。我估计，接下来的几年里，随着flexbox布局的普遍流行，我们将会看到对@support标记更加广泛的使用。
