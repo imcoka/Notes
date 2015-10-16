@@ -1,0 +1,29 @@
+统一回复：
+1:函数方式
+直接调用函数名,或函数表达式的返回值,
+This指代全局对象,window
+
+function a(){
+  return this;
+}
+a()                //window
+
+2:属性方式(对象方法方式)
+This指代该对象(方法的属主)
+var obj={
+      a:function(){
+        return this;
+        }
+}
+obj.a();          //Objcet
+
+3:构造器方式
+通过 new 函数名() , 来创建对象
+在js里, 构造函数与对象的关系比较松散,
+对象就是"属性->值"的集合
+构造器的作用,是制造一个对象,把this指向该对象
+function a(){
+  return this;
+}
+var obj=new a();
+obj               //a{}
