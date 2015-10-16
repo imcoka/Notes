@@ -1,0 +1,27 @@
+小伙伴们的问题统一回复：闭包的理解
+1.
+function a(){
+      var i=0;
+      function b(){
+        i++;
+        console.log(i);
+      }
+      return b;
+  }
+  var c=a();c()     //2
+2.function a(){
+    var i=0;
+    return function(){
+        i++;
+        console.log(i);
+    }
+}
+a()();                        //2
+2.function a(i){
+    i++;
+    return function(){
+        i++;
+        console.log(i);
+    }
+}
+a(8)();                       //10
