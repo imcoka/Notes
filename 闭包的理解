@@ -4,24 +4,40 @@ function a(){
       var i=0;
       function b(){
         i++;
-        console.log(i);
+        return i;
       }
       return b;
   }
-  var c=a();c()     //2
-2.function a(){
+  var c=a();console.log(c())     //2
+  
+2.
+function a(){
     var i=0;
     return function(){
         i++;
-        console.log(i);
+        return i;
     }
 }
-a()();                        //2
-2.function a(i){
+console.log(a()());             //2
+
+3.
+function a(i){
     i++;
     return function(){
         i++;
-        console.log(i);
+        return i;
     }
 }
-a(8)();                       //10
+console.log(a(8)());           //10
+
+4.
+var i=1;
+var obj={
+      j:0,
+      a:function(){
+            return function(){
+                  return this.i;
+            }
+      }
+}
+console.log(obj.a()())        //1
